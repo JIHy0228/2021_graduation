@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         markerItem1.setTMapPoint( tMapPoint1 ); // 마커의 좌표 지정
         markerItem1.setName("SKT타워"); // 마커의 타이틀 지정
         tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
+
         tMapView.setCenterPoint( 126.985302, 37.570841 );
 
     }
