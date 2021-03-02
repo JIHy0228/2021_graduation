@@ -31,23 +31,19 @@ public class Pharmacy extends AppCompatActivity { // 약국조회
         editText = (EditText) findViewById(R.id.editText);
     }
     public void mOnClick(View v){
-        switch (v.getId()){
-            case R.id.button_pharmacy:
-                new Thread(new Runnable() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data = getXmlPharmacy();
+
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        data=getXmlPharmacy();
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                text.setText(data);
-                            }
-                        });
+                        text.setText(data);
                     }
-                }).start();
-                break;
-        }
+                });
+            }
+        }).start();
     }
     String getXmlPharmacy(){
 

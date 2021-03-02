@@ -34,23 +34,19 @@ public class Mask extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
     }
     public void mOnClick(View v){
-        switch (v.getId()){
-            case R.id.button_mask:
-                new Thread(new Runnable() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data=getXmlMask();
+
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        data=getXmlMask();
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                text.setText(data);
-                            }
-                        });
+                        text.setText(data);
                     }
-                }).start();
-                break;
-        }
+                });
+            }
+        }).start();
     }
     String getXmlMask(){
 

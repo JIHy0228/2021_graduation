@@ -23,6 +23,8 @@
         <activity android:name=".CovidActivity"></activity>
         <activity android:name=".Hospital"></activity>
         <activity android:name=".Infection"></activity>
+        <activity android:name=".Mask"></activity>
+        <activity android:name=".Pharmacy"></activity>
     </application>
 
 </manifest>
