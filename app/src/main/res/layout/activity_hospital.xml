@@ -6,16 +6,15 @@
     android:orientation="vertical"
     tools:context=".Hospital">
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/result_mask"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="8sp"
-            android:textStyle="bold" />
-    </ScrollView>
-
+        android:layout_height="match_parent"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@android:color/black"
+        android:scrollbars="vertical"
+        android:layout_weight="1"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

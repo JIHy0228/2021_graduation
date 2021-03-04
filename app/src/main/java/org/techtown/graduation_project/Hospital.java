@@ -1,10 +1,14 @@
 package org.techtown.graduation_project;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -12,30 +16,55 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Hospital extends AppCompatActivity {
-    TextView text;
-    String data;
+    private ArrayList<MainData> arrayList;
+    private MainAdapter mainAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+
+    String sgguNm;
+    String sidoNm;
+    String yadmNm;
+    String telno;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
 
-        text= (TextView)findViewById(R.id.result_mask);
+        recyclerView = (RecyclerView)findViewById(R.id.rv);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        arrayList = new ArrayList<>();
+        mainAdapter = new MainAdapter(arrayList);
+        recyclerView.setAdapter(mainAdapter);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                data = gethospital();
-
+                gethospital();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        text.setText(data);
+                        mainAdapter.notifyDataSetChanged(); // 새로고침
                     }
                 });
             }
         }).start();
+
+//        Button btn_add = (Button)findViewById(R.id.btn_add);
+//        btn_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainData mainData = new MainData(R.mipmap.ic_launcher, "홍드로이드", "리사이클러뷰");
+//                arrayList.add(mainData);
+//                mainAdapter.notifyDataSetChanged(); // 새로고침
+//            }
+//        });
+
     }
 
     String gethospital(){
@@ -64,29 +93,21 @@ public class Hospital extends AppCompatActivity {
                         tag= xpp.getName();//테그 이름 얻어오기
 
                         if(tag.equals("item")) ;// 첫번째 검색결과
-                        else if(tag.equals("sgguNm")){
-                            buffer.append("시군 : ");
+                        else if(tag.equals("sgguNm")) {
                             xpp.next();
-                            buffer.append(xpp.getText());//title 요소의 TEXT 읽어와서 문자열버퍼에 추가
-                            buffer.append("\n"); //줄바꿈 문자 추가
+                            sgguNm = "시군: " + xpp.getText().toString();
                         }
                         else if(tag.equals("sidoNm")){
-                            buffer.append("시도 :");
                             xpp.next();
-                            buffer.append(xpp.getText());//description 요소의 TEXT 읽어와서 문자열버퍼에 추가
-                            buffer.append("\n");//줄바꿈 문자 추가
+                            sidoNm = "시도: " + xpp.getText().toString();
                         }
                         else if(tag.equals("yadmNm")){
-                            buffer.append("병원이름 :");
                             xpp.next();
-                            buffer.append(xpp.getText());//address 요소의 TEXT 읽어와서 문자열버퍼에 추가
-                            buffer.append("\n\n");//줄바꿈 문자 추가
+                            yadmNm = "병원이름: " + xpp.getText().toString();
                         }
                         else if(tag.equals("telno")){
-                            buffer.append("전화번호 :");
                             xpp.next();
-                            buffer.append(xpp.getText());//mapx 요소의 TEXT 읽어와서 문자열버퍼에 추가
-                            buffer.append("\n"); //줄바꿈 문자 추가
+                            telno = "전화번호: " + xpp.getText().toString();
                         }
                         break;
 
@@ -95,14 +116,17 @@ public class Hospital extends AppCompatActivity {
 
                     case XmlPullParser.END_TAG:
                         tag= xpp.getName(); //테그 이름 얻어오기
+                        if(tag.equals("item")){
+                            MainData mainData = new MainData(R.mipmap.ic_launcher, sgguNm, sidoNm, yadmNm, telno);
+                            arrayList.add(mainData);
+                            buffer.append("\n");// 첫번째 검색결과종료..줄바꿈
+                        }
 
-                        if(tag.equals("item")) buffer.append("\n");// 첫번째 검색결과종료..줄바꿈
                         break;
                 }
 
                 eventType= xpp.next();
             }
-
         } catch (Exception e){
             e.printStackTrace();
         }
