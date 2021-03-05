@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Mask" >
+    tools:context=".Mask">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/button_mask"
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:onClick="mOnClick"
@@ -31,16 +31,15 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/result_mask"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
-    </ScrollView>
 </LinearLayout>
